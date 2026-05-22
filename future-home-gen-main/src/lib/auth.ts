@@ -6,8 +6,13 @@ export interface User {
 }
 
 export const getCurrentUser = (): User | null => {
-  const user = localStorage.getItem('buildgen_user');
-  return user ? JSON.parse(user) : null;
+  try {
+    const user = localStorage.getItem('buildgen_user');
+    return user ? JSON.parse(user) : null;
+  } catch {
+    localStorage.removeItem('buildgen_user');
+    return null;
+  }
 };
 
 export const login = (email: string, username: string = "Builder"): User => {
